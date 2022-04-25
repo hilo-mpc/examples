@@ -1,0 +1,5 @@
+# HTML files
+*.html
+
+# Pycharm stuff
+.idea
