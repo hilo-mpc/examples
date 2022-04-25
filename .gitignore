@@ -3,3 +3,6 @@
 
 # Pycharm stuff
 .idea
+
+# PyTorch stuff
+*.pt
