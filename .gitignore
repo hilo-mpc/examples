@@ -7,3 +7,11 @@
 # PyTorch stuff
 *.pt
 /requirements.txt
+
+# Results folders
+runs/
+Results/
+
+#jupyter notebook stuff
+jupyter_notebooks/.ipynb_checkpoints
+jupyter_notebooks/NN
