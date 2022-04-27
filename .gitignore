@@ -6,3 +6,4 @@
 
 # PyTorch stuff
 *.pt
+/requirements.txt
