@@ -1,25 +1,3 @@
-#
-#   This file is part of HILO-MPC
-#
-#   HILO-MPC is toolbox for easy, flexible and fast development of machine-learning supported
-#   optimal control and estimation problems
-#
-#   Copyright (c) 2021 Johannes Pohlodek, Bruno Morabito, Rolf Findeisen
-#                      All rights reserved
-#
-#   HILO-MPC is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU Lesser General Public License as
-#   published by the Free Software Foundation, either version 3
-#   of the License, or (at your option) any later version.
-#
-#   HILO-MPC is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with HILO-MPC.  If not, see <http://www.gnu.org/licenses/>.
-
 """
 This example solves a path following MPC and a trajectory tracking MPC problem for a simple double integrator system.
 In this example we will not use the SimpleControlLoop class, but we will write the control loop manually.
@@ -31,7 +9,7 @@ import casadi as ca
 from bokeh.io import show
 from bokeh.plotting import figure
 import numpy as np
-import time
+
 
 # Define the model
 model = Model(plot_backend='bokeh')
@@ -40,8 +18,8 @@ model = Model(plot_backend='bokeh')
 M = 5.
 
 # States and algebraic variables
-xx = model.set_dynamical_states(['x', 'vx', 'y', 'vy'])
-model.set_measurements(['y_x', 'y_vx', 'y_y', 'y_vy'])
+xx = model.set_dynamical_states('x', 'vx', 'y', 'vy')
+model.set_measurements('y_x', 'y_vx', 'y_y', 'y_vy')
 model.set_measurement_equations([xx[0], xx[1], xx[2], xx[3]])
 x = xx[0]
 vx = xx[1]
@@ -49,7 +27,7 @@ y = xx[2]
 vy = xx[3]
 
 # Inputs
-F = model.set_inputs(['Fx', 'Fy'])
+F = model.set_inputs('Fx', 'Fy')
 Fx = F[0]
 Fy = F[1]
 

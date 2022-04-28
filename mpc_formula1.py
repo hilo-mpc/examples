@@ -1,25 +1,3 @@
-#
-#   This file is part of HILO-MPC
-#
-#   HILO-MPC is toolbox for easy, flexible and fast development of machine-learning supported
-#   optimal control and estimation problems
-#
-#   Copyright (c) 2021 Johannes Pohlodek, Bruno Morabito, Rolf Findeisen
-#                      All rights reserved
-#
-#   HILO-MPC is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU Lesser General Public License as
-#   published by the Free Software Foundation, either version 3
-#   of the License, or (at your option) any later version.
-#
-#   HILO-MPC is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with HILO-MPC.  If not, see <http://www.gnu.org/licenses/>.
-
 """
 This examples uses a car model
 The complex car model was taken from the paper "Optimization-Based Autonomous Racing of 1:43 Scale RC Cars".
@@ -32,7 +10,7 @@ import numpy as np
 
 # Necessary for plots
 from bokeh.plotting import figure
-from bokeh.io import show, output_notebook
+from bokeh.io import show
 
 """ Initialize simple car model """
 model = Model(plot_backend='bokeh')

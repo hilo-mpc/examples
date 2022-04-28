@@ -1,41 +1,20 @@
-#
-#   This file is part of HILO-MPC
-#
-#   HILO-MPC is toolbox for easy, flexible and fast development of machine-learning supported
-#   optimal control and estimation problems
-#
-#   Copyright (c) 2021 Johannes Pohlodek, Bruno Morabito, Rolf Findeisen
-#                      All rights reserved
-#
-#   HILO-MPC is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU Lesser General Public License as
-#   published by the Free Software Foundation, either version 3
-#   of the License, or (at your option) any later version.
-#
-#   HILO-MPC is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with HILO-MPC.  If not, see <http://www.gnu.org/licenses/>.
-
-
-"Example using the Moving Horizon Estimator in a chemical reaction. The example is taken from the book \
-Model Predictive Control - Theory and Design. J. Rawlings and D. Mayne, doi: 10.1002/9781119941446.ch3 "
-
-import time
+"""
+Example using the Moving Horizon Estimator in a chemical reaction. The example is taken from the book
+Model Predictive Control - Theory and Design. J. Rawlings and D. Mayne, doi: 10.1002/9781119941446.ch3
+"""
 
 from hilo_mpc import Model, MHE
 
-from bokeh.io import output_file, show
+from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 import numpy as np
 
+
 # Create model
 model = Model(plot_backend='bokeh')
-x = model.set_dynamical_states(['Ca', 'Cb', 'Cc'], units=['mol/l', 'mol/l', 'mol/l'], short_description=['Ca', 'Cb', 'Cc'])
+x = model.set_dynamical_states(['Ca', 'Cb', 'Cc'], units=['mol/l', 'mol/l', 'mol/l'],
+                               short_description=['Ca', 'Cb', 'Cc'])
 model.set_measurements(['P'], units=['atm'], short_description=['Pressure'])
 
 # Unwrap states

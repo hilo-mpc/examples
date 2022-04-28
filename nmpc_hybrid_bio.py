@@ -1,25 +1,3 @@
-#
-#   This file is part of HILO-MPC
-#
-#   HILO-MPC is toolbox for easy, flexible and fast development of machine-learning supported
-#   optimal control and estimation problems
-#
-#   Copyright (c) 2021 Johannes Pohlodek, Bruno Morabito, Rolf Findeisen
-#                      All rights reserved
-#
-#   HILO-MPC is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU Lesser General Public License as
-#   published by the Free Software Foundation, either version 3
-#   of the License, or (at your option) any later version.
-#
-#   HILO-MPC is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with HILO-MPC.  If not, see <http://www.gnu.org/licenses/>.
-
 """
 Example of learning supported NMPC applied on a bioreactor. A artificial neural network is used to learn the reaction
 rates. For a more detailed description of the example, please refer to the documentation.
@@ -33,6 +11,7 @@ from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 import numpy as np
+
 
 set_plot_backend('bokeh')
 # Load known model
@@ -53,11 +32,10 @@ labels = ['mu', 'Rs', 'Rfp']
 # Initialize NN
 ann = ANN(features, labels, seed=2)
 ann.add_layers(Layer.dense(10, activation='sigmoid'))
-ann.setup(show_tensorboard=True, tensorboard_log_dir='./runs/ecoli/conti')
+ann.setup(show_tensorboard=True, tensorboard_log_dir='./runs/ecoli/conti', device='cpu')
 
 # Add dataset
 ann.add_data_set(df)
-# TODO: I think we want to use validate_split here
 ann.train(1, 2000, validation_split=.2, patience=100)
 
 # Create the gray-box model
@@ -106,7 +84,6 @@ solution_real = plant.solution
 scl = SimpleControlLoop(plant, nmpc_real)
 scl.run(steps=n_steps, p=p0)
 scl.plot()
-
 
 
 p_tot = []
