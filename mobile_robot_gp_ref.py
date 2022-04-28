@@ -1,11 +1,15 @@
-from hilo_mpc import Model, NMPC, SimpleControlLoop, GP
-import hilo_mpc.modules.machine_learning.gp.kernel as kernels
 import numpy as np
-import casadi as ca
+
+from hilo_mpc import Model, NMPC, SimpleControlLoop, GPArray, Mean, Kernel, set_plot_backend
 
 
-model = Model(plot_backend='bokeh')
+# Set plot backend
+set_plot_backend('bokeh')
 
+# Initialize empty model
+model = Model()
+
+# Add equations
 equations = """
 dx1/dt = u1(k)*cos(x3(t))
 dx2/dt = u1(k)*sin(x3(t))
@@ -13,85 +17,78 @@ dx3/dt = u2(k)
 """
 model.set_equations(equations=equations)
 
+# Sampling time
 dt = 0.1
 
+# Set up model
 model.setup(dt=dt)
+
+# Initial conditions
 x0 = [1, 1, 0]
+model.set_initial_conditions(x0)
+
+# Generate data
 Tf = 20
 N = int(Tf / dt)
 time = np.linspace(0, Tf, N)
-model.set_initial_conditions(x0)
 
-"""Generate data"""
 u1 = 2 + 0.1 * np.sin(time)
 u2 = 0.5 + np.sin(time)
 
 for i in range(N):
     model.simulate(u=[u1[i], u2[i]])
 
+# Plot results
 model.solution.plot()
-# If you want to save the results to a mat file decomment this. Remember to pass a valid path to file_name
-# model.solution.to_mat('t', 'x', file_name='../Results/mobile_robots/data_generation.mat')
-# trajectory = ca.vertcat(model.solution['x1'], model.solution['x2'], model.solution['x3'])
 
-""" Learn data """
-kernel = kernels.SquaredExponentialKernel( length_scales=0.1,
-                                    bounds={'length_scales': (0.01, 1e2),
-                                            'variance': (0.01, 1e2)})
-gp_1 = GP(['t'], ['x1'], bounds=(.01, 100.), kernel=kernel, id='gp1')
+# Generate features and labels
+features = 3 * [model.solution['t'].full()]
+labels = model.solution.get_by_id('x').full()
 
-kernel = kernels.SquaredExponentialKernel(length_scales=0.1,
-                                    bounds={'length_scales': (0.01, 1e2),
-                                            'variance': (0.01, 1e2)})
-gp_2 = GP(['t'], ['x2'], bounds=(.01, 100.), kernel=kernel, id='gp2')
+# Initialize GPs
+gps = GPArray(3)
+for k, gp in enumerate(gps):
+    # Define the kernel
+    if k < 2:
+        mean = Mean.zero()
+        kernel = Kernel.periodic(length_scales=.1)
+    else:
+        mean = Mean.linear()
+        kernel = Kernel.periodic(length_scales=.1)
 
-kernel = kernels.SquaredExponentialKernel(length_scales=0.1,
-                                    bounds={'length_scales': (0.01, 1e2),
-                                            'variance': (0.01, 1e2)})
+    # Define kth GP and fit it
+    gp.initialize(['t'], [f'x{k + 1}'], mean=mean, kernel=kernel)
+    gp.set_training_data(features[k], np.atleast_2d(labels[k, :]))
+    gp.setup()
+    gp.fit_model()
 
-gp_3 = GP(['t'], ['x3'], bounds=(.01, 100.), kernel=kernel, id='gp3')
+    # Plots
+    gp.plot_1d()
 
-gp_1.set_training_data(np.array(model.solution['t']), np.array(model.solution['x1']))
-gp_2.set_training_data(np.array(model.solution['t']), np.array(model.solution['x2']))
-gp_3.set_training_data(np.array(model.solution['t']), np.array(model.solution['x3']))
-
-gp_1.setup()
-gp_2.setup()
-gp_3.setup()
-
-gp_1.fit_model()
-gp_2.fit_model()
-gp_3.fit_model()
-
-gp_1.plot()
-gp_2.plot()
-gp_3.plot()
-
-""" Setup MPC """
+# Set up MPC
 model.reset_solution()
 
 nmpc = NMPC(model)
-t = nmpc.get_time_variable('t')
+t = nmpc.get_time_variable()
 
-gp_1_mean, _ = gp_1.predict(t)
-gp_2_mean, _ = gp_2.predict(t)
-gp_3_mean, _ = gp_3.predict(t)
+gp_1_mean, _ = gps[0].predict(t)
+gp_2_mean, _ = gps[1].predict(t)
+gp_3_mean, _ = gps[2].predict(t)
 
 nmpc.horizon = 50
 nmpc.quad_stage_cost.add_states(names=['x1', 'x2', 'x3'],
-                                ref={'x1':gp_1_mean, 'x2':gp_2_mean, 'x3':gp_3_mean},
+                                ref={'x1': gp_1_mean, 'x2': gp_2_mean, 'x3': gp_3_mean},
                                 trajectory_tracking=True,
                                 weights=[10, 10, 10])
 nmpc.quad_terminal_cost.add_states(names=['x1', 'x2', 'x3'],
-                                   ref={'x1':gp_1_mean, 'x2':gp_2_mean, 'x3':gp_3_mean},
+                                   ref={'x1': gp_1_mean, 'x2': gp_2_mean, 'x3': gp_3_mean},
                                    weights=[10, 10, 10],
                                    trajectory_tracking=True)
 nmpc.setup(options={'objective_function': 'discrete'})
 
-""" Run loop"""
+# Run the simulation
 sloop = SimpleControlLoop(model, nmpc)
 sloop.run(N - nmpc.horizon - 1)
-sloop.plot()
 
-# If you want to save the results to a mat file decomment this. Remember to pass avalid path to file_name
-# model.solution.to_mat('t', 'x', file_name='../Results/mobile_robots/mpc.mat')
+# Plots
+sloop.plot()
