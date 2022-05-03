@@ -5,7 +5,7 @@ Laboratory for Systems Theory and Control, Otto von Guericke University (http://
 """
 
 """
-Example of learning supported NMPC applied on a bioreactor. A artificial neural network is used to learn the reaction
+Example of learning supported NMPC applied on a bioreactor. An artificial neural network is used to learn the reaction
 rates. For a more detailed description of the example, please refer to the documentation.
 """
 
@@ -17,6 +17,7 @@ from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 import numpy as np
+
 
 set_plot_backend('bokeh')
 # Load known model
@@ -37,11 +38,10 @@ labels = ['mu', 'Rs', 'Rfp']
 # Initialize NN
 ann = ANN(features, labels, seed=2)
 ann.add_layers(Layer.dense(10, activation='sigmoid'))
-ann.setup(show_tensorboard=True, tensorboard_log_dir='./runs/ecoli/conti')
+ann.setup(show_tensorboard=True, tensorboard_log_dir='./runs/ecoli/conti', device='cpu')
 
 # Add dataset
 ann.add_data_set(df)
-# TODO: I think we want to use validate_split here
 ann.train(1, 2000, validation_split=.2, patience=100)
 
 # Create the gray-box model
@@ -90,7 +90,6 @@ solution_real = plant.solution
 scl = SimpleControlLoop(plant, nmpc_real)
 scl.run(steps=n_steps, p=p0)
 scl.plot()
-
 
 
 p_tot = []

@@ -3,7 +3,6 @@ HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervis
 at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
 Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
 """
-
 """
 This example solves a path following MPC and a trajectory tracking MPC problem for a simple double integrator system.
 In this example we will not use the SimpleControlLoop class, but we will write the control loop manually.
@@ -15,7 +14,7 @@ import casadi as ca
 from bokeh.io import show
 from bokeh.plotting import figure
 import numpy as np
-import time
+
 
 # Define the model
 model = Model(plot_backend='bokeh')
@@ -24,8 +23,8 @@ model = Model(plot_backend='bokeh')
 M = 5.
 
 # States and algebraic variables
-xx = model.set_dynamical_states(['x', 'vx', 'y', 'vy'])
-model.set_measurements(['y_x', 'y_vx', 'y_y', 'y_vy'])
+xx = model.set_dynamical_states('x', 'vx', 'y', 'vy')
+model.set_measurements('y_x', 'y_vx', 'y_y', 'y_vy')
 model.set_measurement_equations([xx[0], xx[1], xx[2], xx[3]])
 x = xx[0]
 vx = xx[1]
@@ -33,7 +32,7 @@ y = xx[2]
 vy = xx[3]
 
 # Inputs
-F = model.set_inputs(['Fx', 'Fy'])
+F = model.set_inputs('Fx', 'Fy')
 Fx = F[0]
 Fy = F[1]
 

@@ -5,7 +5,7 @@ Laboratory for Systems Theory and Control, Otto von Guericke University (http://
 """
 import numpy as np
 
-from hilo_mpc import Model, NMPC, SimpleControlLoop, GPArray, Mean, Kernel, set_plot_backend
+from hilo_mpc import Model, NMPC, SimpleControlLoop, GPArray, Kernel, set_plot_backend
 
 
 # Set plot backend
@@ -23,7 +23,7 @@ dx3/dt = u2(k)
 model.set_equations(equations=equations)
 
 # Sampling time
-dt = 0.1
+dt = .01
 
 # Set up model
 model.setup(dt=dt)
@@ -33,7 +33,7 @@ x0 = [1, 1, 0]
 model.set_initial_conditions(x0)
 
 # Generate data
-Tf = 20
+Tf = 30
 N = int(Tf / dt)
 time = np.linspace(0, Tf, N)
 
@@ -47,23 +47,20 @@ for i in range(N):
 model.solution.plot()
 
 # Generate features and labels
-features = 3 * [model.solution['t'].full()]
-labels = model.solution.get_by_id('x').full()
+features = model.solution['t'].full()[:, ::50]
+labels = model.solution.get_by_id('x').full()[:, ::50]
 
 # Initialize GPs
 gps = GPArray(3)
 for k, gp in enumerate(gps):
     # Define the kernel
-    if k < 2:
-        mean = Mean.zero()
-        kernel = Kernel.periodic(length_scales=.1)
-    else:
-        mean = Mean.linear()
-        kernel = Kernel.periodic(length_scales=.1)
+    kernel = Kernel.periodic(period=10.)
+    if k == 2:
+        kernel += Kernel.linear()
 
-    # Define kth GP and fit it
-    gp.initialize(['t'], [f'x{k + 1}'], mean=mean, kernel=kernel)
-    gp.set_training_data(features[k], np.atleast_2d(labels[k, :]))
+    # Define k-th GP and fit it
+    gp.initialize(['t'], [f'x{k + 1}'], kernel=kernel, solver='Newton-CG')
+    gp.set_training_data(features, np.atleast_2d(labels[k, :]))
     gp.setup()
     gp.fit_model()
 
@@ -82,11 +79,11 @@ gp_3_mean, _ = gps[2].predict(t)
 
 nmpc.horizon = 50
 nmpc.quad_stage_cost.add_states(names=['x1', 'x2', 'x3'],
-                                ref={'x1': gp_1_mean, 'x2': gp_2_mean, 'x3': gp_3_mean},
+                                ref=[gp_1_mean, gp_2_mean, gp_3_mean],
                                 trajectory_tracking=True,
                                 weights=[10, 10, 10])
 nmpc.quad_terminal_cost.add_states(names=['x1', 'x2', 'x3'],
-                                   ref={'x1': gp_1_mean, 'x2': gp_2_mean, 'x3': gp_3_mean},
+                                   ref=[gp_1_mean, gp_2_mean, gp_3_mean],
                                    weights=[10, 10, 10],
                                    trajectory_tracking=True)
 nmpc.setup(options={'objective_function': 'discrete'})

@@ -3,7 +3,6 @@ HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervis
 at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
 Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
 """
-
 """
 This examples uses a car model
 The complex car model was taken from the paper "Optimization-Based Autonomous Racing of 1:43 Scale RC Cars".
@@ -16,7 +15,7 @@ import numpy as np
 
 # Necessary for plots
 from bokeh.plotting import figure
-from bokeh.io import show, output_notebook
+from bokeh.io import show
 
 """ Initialize simple car model """
 model = Model(plot_backend='bokeh')

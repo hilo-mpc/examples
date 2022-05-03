@@ -8,18 +8,19 @@ Laboratory for Systems Theory and Control, Otto von Guericke University (http://
 "Example using the Moving Horizon Estimator in a chemical reaction. The example is taken from the book \
 Model Predictive Control - Theory and Design. J. Rawlings and D. Mayne, doi: 10.1002/9781119941446.ch3 "
 
-import time
 
 from hilo_mpc import Model, MHE
 
-from bokeh.io import output_file, show
+from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 import numpy as np
 
+
 # Create model
 model = Model(plot_backend='bokeh')
-x = model.set_dynamical_states(['Ca', 'Cb', 'Cc'], units=['mol/l', 'mol/l', 'mol/l'], short_description=['Ca', 'Cb', 'Cc'])
+x = model.set_dynamical_states(['Ca', 'Cb', 'Cc'], units=['mol/l', 'mol/l', 'mol/l'],
+                               short_description=['Ca', 'Cb', 'Cc'])
 model.set_measurements(['P'], units=['atm'], short_description=['Pressure'])
 
 # Unwrap states
