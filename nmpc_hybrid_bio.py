@@ -1,24 +1,8 @@
-#
-#   This file is part of HILO-MPC
-#
-#   HILO-MPC is toolbox for easy, flexible and fast development of machine-learning supported
-#   optimal control and estimation problems
-#
-#   Copyright (c) 2021 Johannes Pohlodek, Bruno Morabito, Rolf Findeisen
-#                      All rights reserved
-#
-#   HILO-MPC is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU Lesser General Public License as
-#   published by the Free Software Foundation, either version 3
-#   of the License, or (at your option) any later version.
-#
-#   HILO-MPC is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with HILO-MPC.  If not, see <http://www.gnu.org/licenses/>.
+"""
+HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
+at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
+Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+"""
 
 """
 Example of learning supported NMPC applied on a bioreactor. A artificial neural network is used to learn the reaction
