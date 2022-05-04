@@ -26,7 +26,7 @@ x0 = 0.
 model.set_initial_conditions(x0)
 
 # Initialize PID controller
-pid = PID(model.n_x, model.n_u, plot_backend='bokeh')
+pid = PID(plot_backend='bokeh')
 
 # Set up PID controller
 pid.setup(dt=.01)
