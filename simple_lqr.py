@@ -1,8 +1,8 @@
-"""
-HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
-at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
-Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
-"""
+#
+# HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
+# at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
+# Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+#
 import numpy as np
 
 from hilo_mpc import Model, LQR, SimpleControlLoop
@@ -31,8 +31,8 @@ lqr.setup()
 model.set_initial_conditions([2, 1])
 
 # Set LQR matrices
-lqr.Q = 2 * np.ones((2, 2))
-lqr.R = 2
+lqr.Q = 2. * np.ones((2, 2))
+lqr.R = 2.
 
 # Run simulation
 scl = SimpleControlLoop(model, lqr)

@@ -1,21 +1,22 @@
-"""
-HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
-at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
-Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
-"""
+#
+# HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
+# at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
+# Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+#
 """
 This examples uses a car model
 The complex car model was taken from the paper "Optimization-Based Autonomous Racing of 1:43 Scale RC Cars".
 Thanks to Alex Liniger to share the parameters of the model
 """
 
-from hilo_mpc import Model, NMPC, UKF
-import casadi as ca
-import numpy as np
-
 # Necessary for plots
 from bokeh.plotting import figure
 from bokeh.io import show
+import casadi as ca
+import numpy as np
+
+from hilo_mpc import Model, NMPC, UKF
+
 
 """ Initialize simple car model """
 model = Model(plot_backend='bokeh')

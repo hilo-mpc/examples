@@ -1,19 +1,19 @@
-"""
-HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
-at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
-Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
-"""
+#
+# HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
+# at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
+# Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+#
 """
 This example solves a path following MPC and a trajectory tracking MPC problem for a simple double integrator system.
 In this example we will not use the SimpleControlLoop class, but we will write the control loop manually.
 """
 
-# Import the necessary classes
-from hilo_mpc import NMPC, Model
-import casadi as ca
 from bokeh.io import show
 from bokeh.plotting import figure
+import casadi as ca
 import numpy as np
+
+from hilo_mpc import NMPC, Model
 
 
 # Define the model

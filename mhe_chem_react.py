@@ -1,20 +1,19 @@
+#
+# HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
+# at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
+# Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+#
 """
-HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
-at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
-Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+Example using the Moving Horizon Estimator in a chemical reaction. The example is taken from the book
+Model Predictive Control - Theory and Design. J. Rawlings and D. Mayne, doi: 10.1002/9781119941446.ch3
 """
-
-
-"Example using the Moving Horizon Estimator in a chemical reaction. The example is taken from the book \
-Model Predictive Control - Theory and Design. J. Rawlings and D. Mayne, doi: 10.1002/9781119941446.ch3 "
-
-
-from hilo_mpc import Model, MHE
 
 from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 import numpy as np
+
+from hilo_mpc import Model, MHE
 
 
 # Create model

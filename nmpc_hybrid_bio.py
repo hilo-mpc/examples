@@ -1,22 +1,21 @@
-"""
-HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
-at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
-Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
-"""
-
+#
+# HILO-MPC is developed by Johannes Pohlodek and Bruno Morabito under the supervision of Prof. Rolf Findeisen
+# at the  Control and cyber-physical systems laboratory, TU Darmstadt (https://www.ccps.tu-darmstadt.de/ccp) and at the
+# Laboratory for Systems Theory and Control, Otto von Guericke University (http://ifatwww.et.uni-magdeburg.de/syst/).
+#
 """
 Example of learning supported NMPC applied on a bioreactor. An artificial neural network is used to learn the reaction
 rates. For a more detailed description of the example, please refer to the documentation.
 """
 
-import pandas as pd
-from hilo_mpc import ANN, Layer, NMPC, SimpleControlLoop
-from hilo_mpc.library.models import ecoli_D1210_conti
-from hilo_mpc.util.plotting import set_plot_backend
 from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 import numpy as np
+import pandas as pd
+
+from hilo_mpc import ANN, Layer, NMPC, SimpleControlLoop, set_plot_backend
+from hilo_mpc.library.models import ecoli_D1210_conti
 
 
 set_plot_backend('bokeh')
