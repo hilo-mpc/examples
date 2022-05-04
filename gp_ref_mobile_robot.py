@@ -59,7 +59,7 @@ for k, gp in enumerate(gps):
         kernel += Kernel.linear()
 
     # Define k-th GP and fit it
-    gp.initialize(['t'], [f'x{k + 1}'], kernel=kernel, solver='Newton-CG')
+    gp.initialize(['t'], [f'x{k + 1}'], kernel=kernel)
     gp.set_training_data(features, np.atleast_2d(labels[k, :]))
     gp.setup()
     gp.fit_model()

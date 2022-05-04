@@ -172,7 +172,7 @@ data_set.plot_test_data(
 
 # Initialize GP
 kernel = SquaredExponentialKernel(active_dims=[1, 2, 3], ard=True)
-gp = GP(['x_0', 'x_1', 'x_2', 'u'], ['y'], kernel=kernel, noise_variance=sigma_n ** 2, solver='Newton-CG')
+gp = GP(['x_0', 'x_1', 'x_2', 'u'], ['y'], kernel=kernel, noise_variance=sigma_n ** 2)
 gp.noise_variance.fixed = True
 
 # Training of GP
