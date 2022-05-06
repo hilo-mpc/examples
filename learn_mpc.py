@@ -5,11 +5,14 @@
 #
 import numpy as np
 
-from hilo_mpc import Model, NMPC, SimpleControlLoop, ANN, Layer
+from hilo_mpc import Model, NMPC, SimpleControlLoop, ANN, Layer, set_plot_backend
 
+
+# Set plot backend
+set_plot_backend('bokeh')
 
 # Initialize empty model
-system = Model(plot_backend='bokeh', name='Linear SMD')
+system = Model(name='Linear SMD')
 
 # Set states and inputs
 system.set_dynamical_states('x', 2)
