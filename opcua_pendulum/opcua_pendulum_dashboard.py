@@ -8,7 +8,7 @@ Simple OPC UA dashboard: shows a live pendulum sketch with angle and torque.
 No extra dependencies required (uses Python stdlib http.server + threading + our async OPC UA client).
 
 Usage (in a third terminal):
-    python examples/opcua_pendulum_dashboard.py --endpoint opc.tcp://127.0.0.1:4840/freeopcua/pendulum/ --ns-idx 2
+    python opcua_pendulum/opcua_pendulum_dashboard.py --endpoint opc.tcp://127.0.0.1:4840/freeopcua/pendulum/ --ns-idx 2
 Then open your browser at http://127.0.0.1:8000/
 """
 
@@ -163,7 +163,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
         self.send_response(404)
         self.end_headers()
 
-    def log_message(self, format: str, *args) -> None:  # noqa: A003 - suppress default noisy logging
+    def log_message(self, format: str, *args) -> None:  # noqa: A003 - override to suppress HTTP request logging and reduce console output
         return
 
 
@@ -220,6 +220,7 @@ def main() -> None:
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
+        # Allow graceful shutdown on Ctrl+C (KeyboardInterrupt)
         pass
     finally:
         stop_evt.set()

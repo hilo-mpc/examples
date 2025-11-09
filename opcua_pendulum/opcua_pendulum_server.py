@@ -95,6 +95,7 @@ async def plant_loop(angle_node: Any, torque_node: Any, Ts_plant: float, run_sec
             await asyncio.sleep(Ts_plant)
             t += Ts_plant
     except asyncio.CancelledError:
+        # Task was cancelled during shutdown; no special cleanup needed.
         pass
 
 

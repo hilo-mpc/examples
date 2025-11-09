@@ -6,10 +6,10 @@ OPC UA pendulum control using OPCUASimpleControlLoop (SimpleControlLoop-style in
   from successive reads (no plant simulation here).
 
 Run after starting the server:
-  python examples/opcua_pendulum_server.py
+  python opcua_pendulum/opcua_pendulum_server.py
 
 Then in another terminal run this controller:
-  python examples/opcua_pendulum_simple_control_loop.py --ns-idx 2
+  python opcua_pendulum/opcua_pendulum_simple_control_loop.py --ns-idx 2
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import math
 from typing import Optional, Sequence
 
 import casadi as ca
-import numpy as np
+
 
 from hilo_mpc import Model, NMPC
 from hilo_mpc.plugins.io import IOMapping, OPCUASimpleControlLoop

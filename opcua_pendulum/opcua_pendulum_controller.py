@@ -11,10 +11,10 @@ Run this after starting `opcua_pendulum_server.py` in a separate terminal.
 import argparse
 import asyncio
 import math
-from typing import Tuple
+
 
 import casadi as ca
-import numpy as np
+
 
 from hilo_mpc import Model, NMPC
 from hilo_mpc.plugins.io import OPCUAConnector, IOMapping
